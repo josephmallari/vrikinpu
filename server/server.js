@@ -14,7 +14,21 @@ app.use(express.json());
 // Get all comments
 app.get("/comments", (req, res) => {
   const comments = db.prepare("SELECT * FROM comments").all();
-  res.json(comments);
+
+  // Convert flat list into nested structure
+  const commentMap = {};
+  comments.forEach((c) => (commentMap[c.id] = { ...c, replies: [] }));
+
+  const rootComments = [];
+  comments.forEach((c) => {
+    if (c.parent_id) {
+      commentMap[c.parent_id]?.replies.push(commentMap[c.id]);
+    } else {
+      rootComments.push(commentMap[c.id]);
+    }
+  });
+
+  res.json(rootComments);
 });
 
 // Add a new comment
@@ -22,7 +36,7 @@ app.post("/comments", (req, res) => {
   const { text, parent_id } = req.body;
   const stmt = db.prepare("INSERT INTO comments (text, parent_id) VALUES (?, ?)");
   const result = stmt.run(text, parent_id || null);
-  res.json({ id: result.lastInsertRowid, text, parent_id });
+  res.json({ id: result.lastInsertRowid, text, parent_id, replies: [] });
 });
 
 // Delete a comment
