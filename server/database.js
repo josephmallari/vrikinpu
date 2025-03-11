@@ -10,4 +10,9 @@ db.prepare(
   )`
 ).run();
 
+const queries = {
+  getAllComments: db.prepare("SELECT * FROM comments"),
+};
+
+console.log(queries.getAllComments.all());
 export default db;
