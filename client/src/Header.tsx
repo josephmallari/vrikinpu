@@ -1,3 +1,3 @@
 export default function Header() {
-  return <h1 style={{ fontSize: "33px" }}>Comments</h1>;
+  return <h1 className="text-4xl">Comments</h1>;
 }

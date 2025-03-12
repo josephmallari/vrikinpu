@@ -30,8 +30,10 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write a reply..."
+                    className="max-w-1/3"
                   />
                   <button
+                    className="block"
                     onClick={() => {
                       addReply(replyText, c.id);
                       setReplyText("");

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Comments from "./Comments";
-import "./App.css";
 import { Comment } from "./types";
 import CommentInput from "./CommentInput";
 
@@ -94,7 +93,7 @@ export default function CommentApp() {
   }
 
   return (
-    <div className="App">
+    <div className="App p-8">
       <CommentInput addComment={addComment} setText={setText} text={text} />
       <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
     </div>
