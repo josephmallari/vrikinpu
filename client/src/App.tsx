@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-import CommentList from "./CommentList";
-
-/** Represents a comment with nested replies */
-export interface Comment {
-  id: number;
-  text: string;
-  parent_id: number | null;
-  replies: Comment[];
-}
+import Comments from "./Comments";
+import "./App.css";
+import { Comment } from "./types";
+import CommentInput from "./CommentInput";
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -99,20 +94,9 @@ export default function CommentApp() {
   }
 
   return (
-    <div>
-      <h2>Comments</h2>
-      <input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={replyTo ? "Replying..." : "Write a comment..."}
-      />
-      <button onClick={addComment}>{replyTo ? "Reply" : "Add Comment"}</button>
-      <CommentList
-        comments={comments}
-        setReplyTo={handleSetReplyTo}
-        deleteComment={deleteComment}
-        addReply={addReply}
-      />
+    <div className="App">
+      <CommentInput addComment={addComment} setText={setText} text={text} />
+      <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
     </div>
   );
 }
