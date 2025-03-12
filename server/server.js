@@ -6,17 +6,22 @@ import { Server } from "socket.io";
 
 const app = express();
 const server = createServer(app);
+
 app.use(cors());
 app.use(express.json());
+
+// socket logic setup
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Vite's default port
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "DELETE"],
   },
 });
+
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("socket connected");
 });
+
 // Get all comments
 app.get("/comments", (req, res) => {
   const comments = db.prepare("SELECT * FROM comments").all();
@@ -37,7 +42,7 @@ app.get("/comments", (req, res) => {
   res.json(rootComments);
 });
 
-// Add a new comment
+// Add new comment
 app.post("/comments", (req, res) => {
   const { text, parent_id } = req.body;
   const stmt = db.prepare("INSERT INTO comments (text, parent_id) VALUES (?, ?)");
@@ -45,7 +50,7 @@ app.post("/comments", (req, res) => {
   res.json({ id: result.lastInsertRowid, text, parent_id, replies: [] });
 });
 
-// Delete a comment
+// Delete comment
 app.delete("/comments/:id", (req, res) => {
   db.prepare("DELETE FROM comments WHERE id = ?").run(req.params.id);
   res.sendStatus(200);

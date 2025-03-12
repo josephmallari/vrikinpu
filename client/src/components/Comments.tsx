@@ -1,5 +1,6 @@
 import { Comment } from "../types";
 import { useState } from "react";
+import Button from "./Button";
 
 interface CommentsProps {
   comments: Comment[];
@@ -45,30 +46,23 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
                              resize-none"
                   />
                   <div className="reply-actions">
-                    <button
+                    <Button
                       onClick={() => {
                         addReply(replyText, c.id);
                         setReplyText("");
                         setReplyingTo(null);
                       }}
-                      className="cursor-pointer inline-block text-white bg-gradient-to-br from-purple-600 
-                             to-blue-500 hover:bg-gradient-to-bl focus:ring-4 
-                             focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
-                             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                       Reply
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => {
                         setReplyingTo(null);
                       }}
-                      className="cursor-pointer inline-block text-white bg-gradient-to-br from-purple-600 
-                             to-red-500 hover:bg-gradient-to-bl focus:ring-4 
-                             focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
-                             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                      variant="danger"
                     >
                       Cancel
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}

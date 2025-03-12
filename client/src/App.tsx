@@ -11,7 +11,7 @@ export default function CommentApp() {
 
   console.log(comments);
 
-  /** Fetches all comments from the server on component mount */
+  // gets all comments on mount
   useEffect(() => {
     async function fetchComments() {
       try {
@@ -54,8 +54,8 @@ export default function CommentApp() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, parent_id: replyTo }),
     });
+
     const newComment = await res.json();
-    console.log("new comment", newComment);
     setComments((prev) => updateNestedComments(prev, newComment));
     setText("");
     setReplyTo(null);
@@ -71,6 +71,7 @@ export default function CommentApp() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, parent_id: parentId }),
     });
+
     const newComment = await res.json();
     setComments((prev) => updateNestedComments(prev, newComment));
   }
