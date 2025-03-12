@@ -40,6 +40,20 @@ export default function CommentApp() {
   }
 
   /**
+   * Creates a new reply
+   * Sends POST request to server and updates local state
+   */
+  async function addReply(text: string, parentId: number) {
+    const res = await fetch("http://localhost:5001/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, parent_id: parentId }),
+    });
+    const newComment = await res.json();
+    setComments((prev) => updateNestedComments(prev, newComment));
+  }
+
+  /**
    * Recursively updates the comments tree with a new comment
    * @param comments - Current array of comments
    * @param newComment - New comment to be inserted
@@ -93,7 +107,12 @@ export default function CommentApp() {
         placeholder={replyTo ? "Replying..." : "Write a comment..."}
       />
       <button onClick={addComment}>{replyTo ? "Reply" : "Add Comment"}</button>
-      <CommentList comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} />
+      <CommentList
+        comments={comments}
+        setReplyTo={handleSetReplyTo}
+        deleteComment={deleteComment}
+        addReply={addReply}
+      />
     </div>
   );
 }
