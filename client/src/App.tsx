@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Comments from "./components/Comments";
 import { Comment } from "./types";
 import CommentInput from "./components/CommentInput";
+import { io } from "socket.io-client";
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -27,6 +28,20 @@ export default function CommentApp() {
     }
 
     fetchComments();
+
+    const socket = io("http://localhost:5001");
+
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from server");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   /**

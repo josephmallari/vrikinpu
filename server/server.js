@@ -1,16 +1,22 @@
 import express from "express";
 import cors from "cors";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import db from "./database.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
+const server = createServer(app);
 app.use(cors());
 app.use(express.json());
-
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", // Vite's default port
+    methods: ["GET", "POST", "DELETE"],
+  },
+});
+io.on("connection", (socket) => {
+  console.log("a user connected");
+});
 // Get all comments
 app.get("/comments", (req, res) => {
   const comments = db.prepare("SELECT * FROM comments").all();
@@ -45,4 +51,4 @@ app.delete("/comments/:id", (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(5001, () => console.log("Server running on port 5001"));
+server.listen(5001, () => console.log("Server running on port 5001"));
