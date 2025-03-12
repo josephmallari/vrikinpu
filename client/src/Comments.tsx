@@ -2,15 +2,15 @@ import { Comment } from "./types";
 import { useState } from "react";
 import "./Comments.css";
 
-interface NestedCommentsProps {
+interface CommentsProps {
   comments: Comment[];
   setReplyTo: (id: number) => void;
   deleteComment: (id: number) => void;
   addReply: (text: string, parentId: number) => void;
 }
 
-export default function NestedComments({ comments, setReplyTo, deleteComment, addReply }: NestedCommentsProps) {
-  const [showReply, setShowReply] = useState<boolean>(false);
+export default function Comments({ comments, setReplyTo, deleteComment, addReply }: CommentsProps) {
+  const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState<string>("");
 
   return (
@@ -21,10 +21,10 @@ export default function NestedComments({ comments, setReplyTo, deleteComment, ad
             <div className="comment-content">
               <p className="comment-text">{c.text}</p>
               <div className="comment-actions">
-                <button onClick={() => setShowReply(!showReply)}>↩️ Reply</button>
-                <button onClick={() => deleteComment(c.id)}>❌ Delete</button>
+                <button onClick={() => setReplyingTo(replyingTo === c.id ? null : c.id)}>Reply</button>
+                <button onClick={() => deleteComment(c.id)}>Delete</button>
               </div>
-              {showReply && (
+              {replyingTo === c.id && (
                 <div className="reply-form">
                   <input
                     value={replyText}
@@ -35,7 +35,7 @@ export default function NestedComments({ comments, setReplyTo, deleteComment, ad
                     onClick={() => {
                       addReply(replyText, c.id);
                       setReplyText("");
-                      setShowReply(false);
+                      setReplyingTo(null);
                     }}
                   >
                     Reply
@@ -43,7 +43,7 @@ export default function NestedComments({ comments, setReplyTo, deleteComment, ad
                 </div>
               )}
               {c.replies.length > 0 && (
-                <NestedComments
+                <Comments
                   comments={c.replies}
                   setReplyTo={setReplyTo}
                   deleteComment={deleteComment}
