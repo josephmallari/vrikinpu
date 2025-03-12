@@ -44,19 +44,32 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
                              focus:outline-none focus:ring-2 focus:ring-blue-500 
                              resize-none"
                   />
-                  <button
-                    onClick={() => {
-                      addReply(replyText, c.id);
-                      setReplyText("");
-                      setReplyingTo(null);
-                    }}
-                    className="block mt-4 text-white bg-gradient-to-br from-purple-600 
+                  <div className="reply-actions">
+                    <button
+                      onClick={() => {
+                        addReply(replyText, c.id);
+                        setReplyText("");
+                        setReplyingTo(null);
+                      }}
+                      className="cursor-pointer inline-block text-white bg-gradient-to-br from-purple-600 
                              to-blue-500 hover:bg-gradient-to-bl focus:ring-4 
                              focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
                              font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                  >
-                    Reply
-                  </button>
+                    >
+                      Reply
+                    </button>
+                    <button
+                      onClick={() => {
+                        setReplyingTo(null);
+                      }}
+                      className="cursor-pointer inline-block text-white bg-gradient-to-br from-purple-600 
+                             to-red-500 hover:bg-gradient-to-bl focus:ring-4 
+                             focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
+                             font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               )}
               {c.replies.length > 0 && (
