@@ -1,4 +1,4 @@
-import { Comment } from "./types";
+import { Comment } from "../types";
 import { useState } from "react";
 
 interface CommentsProps {

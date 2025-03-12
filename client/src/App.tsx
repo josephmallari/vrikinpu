@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Comments from "./Comments";
+import Comments from "./components/Comments";
 import { Comment } from "./types";
-import CommentInput from "./CommentInput";
+import CommentInput from "./components/CommentInput";
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -12,9 +12,21 @@ export default function CommentApp() {
 
   /** Fetches all comments from the server on component mount */
   useEffect(() => {
-    fetch("http://localhost:5001/comments")
-      .then((res) => res.json())
-      .then(setComments);
+    async function fetchComments() {
+      try {
+        const res = await fetch("http://localhost:5001/comments");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setComments(data);
+      } catch (error) {
+        console.error("Failed to fetch comments:", error);
+        // Handle error appropriately (e.g., show error message to user)
+      }
+    }
+
+    fetchComments();
   }, []);
 
   /**
@@ -28,6 +40,7 @@ export default function CommentApp() {
       body: JSON.stringify({ text, parent_id: replyTo }),
     });
     const newComment = await res.json();
+    console.log("new comment", newComment);
     setComments((prev) => updateNestedComments(prev, newComment));
     setText("");
     setReplyTo(null);
@@ -93,7 +106,7 @@ export default function CommentApp() {
   }
 
   return (
-    <div className="App p-8">
+    <div className="p-8">
       <CommentInput addComment={addComment} setText={setText} text={text} />
       <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
     </div>
