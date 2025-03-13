@@ -13,8 +13,6 @@ interface CommentsProps {
 export default function Comments({ comments, setReplyTo, deleteComment, addReply }: CommentsProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
-  console.log("comments component");
-
   return (
     <ul className="list-none p-0 m-0">
       {comments.map((c) => (

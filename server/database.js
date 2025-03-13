@@ -12,7 +12,9 @@ db.prepare(
 
 const queries = {
   getAllComments: db.prepare("SELECT * FROM comments"),
+  clearComments: db.prepare("DELETE FROM comments"),
 };
 
 console.log(queries.getAllComments.all());
+
 export default db;

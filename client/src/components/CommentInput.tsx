@@ -6,10 +6,9 @@ interface CommentInputProps {
 
 // input for top level comments
 export default function CommentInput({ addComment }: CommentInputProps) {
-  console.log("comment input");
   return (
     <div>
-      <p className="pt-4 max-w-1/2">
+      <p className="pt-4 max-w-sm">
         We are building software for ambitious and efficient heating companies to bring climate-neutral heating to the
         broad masses of the population. We support both newly founded companies as well as highly scalable companies
       </p>

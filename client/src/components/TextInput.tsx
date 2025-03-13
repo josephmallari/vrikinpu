@@ -25,8 +25,6 @@ export default function TextInput({
     }
   };
 
-  console.log("text input");
-
   return (
     <div>
       <textarea
@@ -34,7 +32,7 @@ export default function TextInput({
         onChange={(e) => setText(e.target.value)}
         placeholder={placeholder}
         rows={rows}
-        className="w-full max-w-1/3 p-2 mb-2 border border-gray-200 rounded-md text-sm 
+        className="w-full max-w-sm p-2 mb-2 border border-gray-200 rounded-md text-sm 
                   focus:outline-none focus:ring-2 focus:ring-blue-500 
                   resize-none"
       />

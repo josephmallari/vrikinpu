@@ -10,7 +10,6 @@ export default function Button({ onClick, variant = "purpleBlue", children }: Bu
     purpleRed: "from-purple-600 to-red-500",
   };
 
-  console.log("button component");
   return (
     <button
       onClick={onClick}
