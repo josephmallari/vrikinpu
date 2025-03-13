@@ -1,6 +1,8 @@
 import { Comment } from "../types";
 import { useState } from "react";
 import Button from "./Button";
+import TextArea from "./TextArea";
+import ActionButtons from "./ActionButtons";
 
 interface CommentsProps {
   comments: Comment[];
@@ -20,31 +22,13 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
           <div className="flex gap-2">
             <div className="flex-1">
               <p className="text-gray-900 mb-2 leading-relaxed">{c.text}</p>
-              <div className="flex gap-2 my-1">
-                <button
-                  onClick={() => setReplyingTo(replyingTo === c.id ? null : c.id)}
-                  className="bg-transparent border-none text-gray-500 text-sm px-2 py-1 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded"
-                >
-                  Reply
-                </button>
-                <button
-                  onClick={() => deleteComment(c.id)}
-                  className="bg-transparent border-none text-gray-500 text-sm px-2 py-1 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded"
-                >
-                  Delete
-                </button>
-              </div>
+              <ActionButtons
+                onReply={() => setReplyingTo(replyingTo === c.id ? null : c.id)}
+                onDelete={() => deleteComment(c.id)}
+              />
               {replyingTo === c.id && (
                 <div className="my-2 ml-6">
-                  <textarea
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
-                    placeholder="Write a reply..."
-                    rows={3}
-                    className="w-full max-w-1/3 p-2 mb-2 border border-gray-200 rounded-md text-sm 
-                             focus:outline-none focus:ring-2 focus:ring-blue-500 
-                             resize-none"
-                  />
+                  <TextArea value={replyText} onChange={(e) => setReplyText(e.target.value)} />
                   <div className="reply-actions">
                     <Button
                       onClick={() => {
