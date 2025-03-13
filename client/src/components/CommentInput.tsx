@@ -1,22 +1,16 @@
 import Header from "./Header";
-import Button from "./Button";
 import TextArea from "./TextArea";
 
 interface CommentInputProps {
-  addComment: () => void;
-  text: string;
-  setText: (text: string) => void;
+  addComment: (text: string) => void;
 }
 
-export default function CommentInput({ addComment, text, setText }: CommentInputProps) {
+export default function CommentInput({ addComment }: CommentInputProps) {
   return (
     <>
       <Header />
       <div className="inputContainer my-8">
-        <TextArea value={text} onChange={(e) => setText(e.target.value)} placeholder="Add a comment..." rows={4} />
-        <div>
-          <Button onClick={addComment}>Save</Button>
-        </div>
+        <TextArea onSubmit={addComment} placeholder="Add a comment..." rows={4} />
       </div>
     </>
   );

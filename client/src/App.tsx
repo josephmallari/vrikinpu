@@ -6,7 +6,6 @@ import { io } from "socket.io-client";
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [text, setText] = useState("");
   const [replyTo, setReplyTo] = useState<number | null>(null);
 
   console.log(comments);
@@ -48,7 +47,7 @@ export default function CommentApp() {
    * Creates a new comment or reply
    * Sends POST request to server and updates local state
    */
-  async function addComment() {
+  async function handleAddComment(text: string) {
     const res = await fetch("http://localhost:5001/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,7 +56,6 @@ export default function CommentApp() {
 
     const newComment = await res.json();
     setComments((prev) => updateNestedComments(prev, newComment));
-    setText("");
     setReplyTo(null);
   }
 
@@ -123,7 +121,7 @@ export default function CommentApp() {
 
   return (
     <div className="p-8">
-      <CommentInput addComment={addComment} setText={setText} text={text} />
+      <CommentInput addComment={handleAddComment} />
       <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
     </div>
   );

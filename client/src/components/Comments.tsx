@@ -13,7 +13,6 @@ interface CommentsProps {
 
 export default function Comments({ comments, setReplyTo, deleteComment, addReply }: CommentsProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
-  const [replyText, setReplyText] = useState<string>("");
 
   return (
     <ul className="list-none p-0 m-0">
@@ -28,26 +27,14 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
               />
               {replyingTo === c.id && (
                 <div className="my-2 ml-6">
-                  <TextArea value={replyText} onChange={(e) => setReplyText(e.target.value)} />
-                  <div className="reply-actions">
-                    <Button
-                      onClick={() => {
-                        addReply(replyText, c.id);
-                        setReplyText("");
-                        setReplyingTo(null);
-                      }}
-                    >
-                      Reply
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setReplyingTo(null);
-                      }}
-                      variant="danger"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
+                  <TextArea
+                    onSubmit={(text) => {
+                      addReply(text, c.id);
+                      setReplyingTo(null);
+                    }}
+                    onCancel={() => setReplyingTo(null)}
+                    submitText="Reply"
+                  />
                 </div>
               )}
               {c.replies.length > 0 && (
