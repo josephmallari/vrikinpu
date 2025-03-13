@@ -47,12 +47,25 @@ app.post("/comments", (req, res) => {
   const { text, parent_id } = req.body;
   const stmt = db.prepare("INSERT INTO comments (text, parent_id) VALUES (?, ?)");
   const result = stmt.run(text, parent_id || null);
-  res.json({ id: result.lastInsertRowid, text, parent_id, replies: [] });
+  const newComment = {
+    id: result.lastInsertRowid,
+    text,
+    parent_id,
+    replies: [],
+  };
+
+  // Emit to all connected clients
+  io.emit("commentAdded", newComment);
+  res.json(newComment);
 });
 
 // delete comment
 app.delete("/comments/:id", (req, res) => {
-  db.prepare("DELETE FROM comments WHERE id = ?").run(req.params.id);
+  const id = req.params.id;
+  db.prepare("DELETE FROM comments WHERE id = ?").run(id);
+
+  // Emit to all connected clients
+  io.emit("commentDeleted", parseInt(id));
   res.sendStatus(200);
 });
 

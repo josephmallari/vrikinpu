@@ -10,16 +10,11 @@ export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [replyTo, setReplyTo] = useState<number | null>(null);
 
-  console.log("app component");
-
-  // gets all comments on mount
   useEffect(() => {
     async function fetchComments() {
       try {
         const res = await fetch("http://localhost:5001/comments");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         setComments(data);
       } catch (error) {
@@ -29,50 +24,58 @@ export default function CommentApp() {
 
     fetchComments();
 
-    // socket connection logic
+    // socket setup
     const socket = io("http://localhost:5001");
-    socket.on("connect", () => {
-      console.log("Connected to server");
+
+    // sisten for updates
+    socket.on("commentAdded", (newComment: Comment) => {
+      setComments((prev) => updateNestedComments(prev, newComment));
     });
-    socket.on("disconnect", () => {
-      console.log("Disconnected from server");
+
+    socket.on("commentDeleted", (id: number) => {
+      setComments((prev) => removeComment(prev, id));
     });
+
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  // add comments
   async function handleAddComment(text: string) {
-    const res = await fetch("http://localhost:5001/comments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, parent_id: replyTo }),
-    });
-
-    const newComment = await res.json();
-    setComments((prev) => updateNestedComments(prev, newComment));
-    setReplyTo(null);
+    try {
+      const res = await fetch("http://localhost:5001/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, parent_id: replyTo }),
+      });
+      await res.json();
+      // server will emit to all clients
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+    }
   }
 
-  // add reply
   async function addReply(text: string, parentId: number) {
-    const res = await fetch("http://localhost:5001/comments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, parent_id: parentId }),
-    });
-
-    const newComment = await res.json();
-    setComments((prev) => updateNestedComments(prev, newComment));
+    try {
+      await fetch("http://localhost:5001/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, parent_id: parentId }),
+      });
+      // server will emit to all clients
+    } catch (error) {
+      console.error("Failed to add reply:", error);
+    }
   }
 
   async function deleteComment(id: number) {
-    await fetch(`http://localhost:5001/comments/${id}`, { method: "DELETE" });
-    setComments((prev) => removeComment(prev, id));
+    try {
+      await fetch(`http://localhost:5001/comments/${id}`, { method: "DELETE" });
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
+    }
   }
 
-  // Sets the ID of the comment being replied to
   function handleSetReplyTo(id: number | null) {
     setReplyTo(id);
   }
