@@ -1,10 +1,8 @@
-import { Comment } from "../types";
+import { Comment } from "../types/types";
 
 /**
- * Recursively updates the comments tree with a new comment
- * @param comments - Current array of comments
- * @param newComment - New comment to be inserted
- * @returns Updated array of comments with the new comment in correct position
+ * recursively updates the comments tree with a new comment
+ * returns updated array of comments with the new comment in correct position
  */
 export function updateNestedComments(comments: Comment[], newComment: Comment): Comment[] {
   if (!newComment.parent_id) return [...comments, newComment];
@@ -18,10 +16,8 @@ export function updateNestedComments(comments: Comment[], newComment: Comment): 
 }
 
 /**
- * Recursively removes a comment from the comments tree
- * @param comments - Current array of comments
- * @param id - ID of the comment to remove
- * @returns Updated array of comments with the specified comment removed
+ * recursively removes a comment from the comments tree
+ * returns Updated array of comments with the specified comment removed
  */
 export function removeComment(comments: Comment[], id: number): Comment[] {
   return comments.filter((c) => c.id !== id).map((c) => ({ ...c, replies: removeComment(c.replies, id) }));

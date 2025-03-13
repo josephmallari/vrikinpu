@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Comments from "./components/Comments";
-import { Comment } from "./types";
+import { Comment } from "./types/types";
 import CommentInput from "./components/CommentInput";
 import { io } from "socket.io-client";
 import { updateNestedComments, removeComment } from "./utils/commentTree";
@@ -10,7 +10,7 @@ export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [replyTo, setReplyTo] = useState<number | null>(null);
 
-  console.log(comments);
+  console.log("app component");
 
   // gets all comments on mount
   useEffect(() => {
@@ -29,25 +29,20 @@ export default function CommentApp() {
 
     fetchComments();
 
+    // socket connection logic
     const socket = io("http://localhost:5001");
-
     socket.on("connect", () => {
       console.log("Connected to server");
     });
-
     socket.on("disconnect", () => {
       console.log("Disconnected from server");
     });
-
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  /**
-   * Creates a new comment or reply
-   * Sends POST request to server and updates local state
-   */
+  // add comments
   async function handleAddComment(text: string) {
     const res = await fetch("http://localhost:5001/comments", {
       method: "POST",
@@ -60,10 +55,7 @@ export default function CommentApp() {
     setReplyTo(null);
   }
 
-  /**
-   * Creates a new reply
-   * Sends POST request to server and updates local state
-   */
+  // add reply
   async function addReply(text: string, parentId: number) {
     const res = await fetch("http://localhost:5001/comments", {
       method: "POST",
@@ -75,20 +67,12 @@ export default function CommentApp() {
     setComments((prev) => updateNestedComments(prev, newComment));
   }
 
-  /**
-   * Deletes a comment by ID
-   * Sends DELETE request to server and updates local state
-   * @param id - ID of the comment to delete
-   */
   async function deleteComment(id: number) {
     await fetch(`http://localhost:5001/comments/${id}`, { method: "DELETE" });
     setComments((prev) => removeComment(prev, id));
   }
 
-  /**
-   * Sets the ID of the comment being replied to
-   * @param id - ID of the parent comment or null for top-level comment
-   */
+  // Sets the ID of the comment being replied to
   function handleSetReplyTo(id: number | null) {
     setReplyTo(id);
   }

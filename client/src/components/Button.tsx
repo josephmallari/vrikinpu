@@ -1,15 +1,16 @@
 interface ButtonProps {
   onClick: () => void;
-  variant?: "primary" | "danger";
+  variant?: "purpleBlue" | "purpleRed";
   children: React.ReactNode;
 }
 
-export default function Button({ onClick, variant = "primary", children }: ButtonProps) {
+export default function Button({ onClick, variant = "purpleBlue", children }: ButtonProps) {
   const gradientColors = {
-    primary: "from-purple-600 to-blue-500",
-    danger: "from-purple-600 to-red-500",
+    purpleBlue: "from-purple-600 to-blue-500",
+    purpleRed: "from-purple-600 to-red-500",
   };
 
+  console.log("button component");
   return (
     <button
       onClick={onClick}

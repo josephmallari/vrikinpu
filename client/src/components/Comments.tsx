@@ -1,6 +1,6 @@
-import { Comment } from "../types";
+import { Comment } from "../types/types";
 import { useState } from "react";
-import TextArea from "./TextArea";
+import TextInput from "./TextInput";
 import ActionButtons from "./ActionButtons";
 
 interface CommentsProps {
@@ -13,6 +13,8 @@ interface CommentsProps {
 export default function Comments({ comments, setReplyTo, deleteComment, addReply }: CommentsProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
+  console.log("comments component");
+
   return (
     <ul className="list-none p-0 m-0">
       {comments.map((c) => (
@@ -24,9 +26,11 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
                 onReply={() => setReplyingTo(replyingTo === c.id ? null : c.id)}
                 onDelete={() => deleteComment(c.id)}
               />
+
+              {/* set reply to specific id/comment */}
               {replyingTo === c.id && (
                 <div className="my-2 ml-6">
-                  <TextArea
+                  <TextInput
                     onSubmit={(text) => {
                       addReply(text, c.id);
                       setReplyingTo(null);
@@ -36,6 +40,8 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
                   />
                 </div>
               )}
+
+              {/* render if parent has children replies */}
               {c.replies.length > 0 && (
                 <div className="ml-6 border-l-2 border-gray-200 pl-4">
                   <Comments

@@ -4,6 +4,7 @@ interface ActionButtonsProps {
 }
 
 export default function ActionButtons({ onReply, onDelete }: ActionButtonsProps) {
+  console.log("action button component");
   return (
     <div className="flex gap-2 my-1">
       <button

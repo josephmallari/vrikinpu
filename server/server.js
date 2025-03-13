@@ -22,11 +22,11 @@ io.on("connection", (socket) => {
   console.log("socket connected");
 });
 
-// Get all comments
+// get all comments
 app.get("/comments", (req, res) => {
   const comments = db.prepare("SELECT * FROM comments").all();
 
-  // Convert flat list into nested structure
+  // convert flat list into nested structure
   const commentMap = {};
   comments.forEach((c) => (commentMap[c.id] = { ...c, replies: [] }));
 
@@ -42,7 +42,7 @@ app.get("/comments", (req, res) => {
   res.json(rootComments);
 });
 
-// Add new comment
+// add new comment
 app.post("/comments", (req, res) => {
   const { text, parent_id } = req.body;
   const stmt = db.prepare("INSERT INTO comments (text, parent_id) VALUES (?, ?)");
@@ -50,7 +50,7 @@ app.post("/comments", (req, res) => {
   res.json({ id: result.lastInsertRowid, text, parent_id, replies: [] });
 });
 
-// Delete comment
+// delete comment
 app.delete("/comments/:id", (req, res) => {
   db.prepare("DELETE FROM comments WHERE id = ?").run(req.params.id);
   res.sendStatus(200);

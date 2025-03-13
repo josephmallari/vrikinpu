@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { updateNestedComments, removeComment } from "./commentTree";
-import type { Comment } from "../types";
+import type { Comment } from "../types/types";
 
 describe("commentTree utils", () => {
   const mockComments: Comment[] = [

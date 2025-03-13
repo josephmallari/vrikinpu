@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 
-interface TextAreaProps {
+interface TextInputProps {
   onSubmit: (text: string) => void;
   onCancel?: () => void;
   placeholder?: string;
@@ -9,13 +9,13 @@ interface TextAreaProps {
   submitText?: string;
 }
 
-export default function TextArea({
+export default function TextInput({
   onSubmit,
   onCancel,
   placeholder = "Write a reply...",
   rows = 3,
   submitText = "Save",
-}: TextAreaProps) {
+}: TextInputProps) {
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
@@ -24,6 +24,8 @@ export default function TextArea({
       setText("");
     }
   };
+
+  console.log("text input");
 
   return (
     <div>
@@ -39,7 +41,7 @@ export default function TextArea({
       <div className="flex gap-2">
         <Button onClick={handleSubmit}>{submitText}</Button>
         {onCancel && (
-          <Button onClick={onCancel} variant="danger">
+          <Button onClick={onCancel} variant="purpleRed">
             Cancel
           </Button>
         )}
