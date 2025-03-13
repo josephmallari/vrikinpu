@@ -1,3 +1,3 @@
 export default function Header() {
-  return <h1 className="text-4xl">Comments</h1>;
+  return <h1 className="text-3xl">Autarc Coding Challenge</h1>;
 }

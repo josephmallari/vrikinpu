@@ -4,6 +4,7 @@ import { Comment } from "./types";
 import CommentInput from "./components/CommentInput";
 import { io } from "socket.io-client";
 import { updateNestedComments, removeComment } from "./utils/commentTree";
+import Header from "./components/Header";
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -94,6 +95,7 @@ export default function CommentApp() {
 
   return (
     <div className="p-8">
+      <Header />
       <CommentInput addComment={handleAddComment} />
       <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
     </div>

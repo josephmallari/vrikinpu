@@ -1,6 +1,5 @@
 import { Comment } from "../types";
 import { useState } from "react";
-import Button from "./Button";
 import TextArea from "./TextArea";
 import ActionButtons from "./ActionButtons";
 
