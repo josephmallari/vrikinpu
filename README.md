@@ -13,6 +13,7 @@
 
 ## client
 ```
+cd client
 npm install
 npm run dev
 ```
@@ -20,6 +21,7 @@ go to localhost:5173
 
 ## server
 ```
+cd server
 npm install
 node server.js
 ```
