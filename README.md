@@ -31,10 +31,10 @@ I set up the frontend with React/TS with Vite. Then brokedown the application in
 
 For the backend I used Node/Express and sqlite for the local DB. I did some research on which local DB to use and for this instance, sqlite was the most simplest. I thought about using RxDB cause that's what Autarc is using but sqlite seems more fitting for a small application.
 
-The code is self documenting and I also added comments for better understanding.
+The code is self documenting and I also added comments for better explanations.
 
 ## future considerations given more time
 
-- I would like to fully integrate socket io so that the application updates through tabs
 - Dockerize the application for easier use and deployment
 - Add more unit testing and add e2e testing
+- Add core logic and edge cases for when websocket disconnects and also add testing
