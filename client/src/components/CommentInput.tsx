@@ -8,7 +8,7 @@ interface CommentInputProps {
 export default function CommentInput({ addComment }: CommentInputProps) {
   return (
     <div>
-      <p className="pt-4 max-w-sm">
+      <p className="pt-4 max-w-2xl">
         We are building software for ambitious and efficient heating companies to bring climate-neutral heating to the
         broad masses of the population. We support both newly founded companies as well as highly scalable companies
       </p>
