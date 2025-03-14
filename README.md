@@ -37,7 +37,7 @@ npm run test
 
 I set up the frontend with React/TS with Vite. Then brokedown the application into multiple reusable components. When a comment thread was mentioned, my first thought was something like Reddit or Hackernews, so I modeled the design off that.
 
-For the backend I used Node/Express and sqlite for the local DB. I did some research on which local DB to use and for this instance, sqlite was the most simplest. I thought about using RxDB cause that's what Autarc is using but sqlite seems more fitting for a small application.
+For the backend I used Node/Express and SQLite for the local DB. I did some research on which local DB to use and for this instance, SQLite was the most simplest. I thought about using RxDB cause that's what Autarc is using but sqlite seems more fitting for a small application.
 
 The code is self documenting and I also added comments for better explanations.
 
