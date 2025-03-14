@@ -5,25 +5,31 @@
 - React / TS through Vite
 - Tailwind CSS for the main reason that Autarc uses it
 - Node / Express to handle server side logic
-- Sqlite to handle local DB
+- SQLite to handle local DB
 - Jest to handle unit testing
-- Socket IO for Websocket (Logic WIP)
+- Socket IO for Websocket
 
 ## Setup
 
 ## client
-
-- npm run dev
-- go to localhost:5173
+```
+npm install
+npm run dev
+```
+go to localhost:5173
 
 ## server
-
-- node server.js
-- server should run on port localhost:5001
+```
+npm install
+node server.js
+```
+server runs on port localhost:5001
 
 ## Testing
 
-- npm run test
+```
+npm run test
+```
 
 ## General approach
 
@@ -33,8 +39,9 @@ For the backend I used Node/Express and sqlite for the local DB. I did some rese
 
 The code is self documenting and I also added comments for better explanations.
 
-## future considerations given more time
+## Future considerations given more time
 
 - Dockerize the application for easier use and deployment
 - Add more unit testing and add e2e testing
 - Add core logic and edge cases for when websocket disconnects and also add testing
+- Deploy to something like Vercel
