@@ -5,11 +5,10 @@ import CommentInput from "./components/CommentInput";
 import { io } from "socket.io-client";
 import { updateNestedComments, removeComment } from "./utils/commentTree";
 import Header from "./components/Header";
-import { fetchComments, handleAddComment, addReply, deleteComment } from "./utils/api.ts"; // Import the API functions
+import { fetchComments } from "./utils/api.ts"; // import the API function
 
 export default function CommentApp() {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [replyTo, setReplyTo] = useState<number | null>(null);
 
   useEffect(() => {
     async function loadComments() {
@@ -38,15 +37,11 @@ export default function CommentApp() {
     };
   }, []);
 
-  function handleSetReplyTo(id: number | null) {
-    setReplyTo(id);
-  }
-
   return (
     <div className="p-8">
       <Header />
-      <CommentInput addComment={(text) => handleAddComment(text, replyTo)} />
-      <Comments comments={comments} setReplyTo={handleSetReplyTo} deleteComment={deleteComment} addReply={addReply} />
+      <CommentInput />
+      <Comments comments={comments} />
     </div>
   );
 }

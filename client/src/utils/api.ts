@@ -6,11 +6,11 @@ export async function fetchComments(): Promise<Comment[]> {
   return res.json();
 }
 
-export async function handleAddComment(text: string, parent_id: number | null): Promise<void> {
+export async function handleAddComment(text: string): Promise<void> {
   const res = await fetch("http://localhost:5001/comments", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, parent_id }),
+    body: JSON.stringify({ text }),
   });
   await res.json();
   // server will emit to all clients

@@ -2,15 +2,13 @@ import { Comment } from "../types/types";
 import { useState } from "react";
 import TextInput from "./TextInput";
 import ActionButtons from "./ActionButtons";
+import { deleteComment, addReply } from "../utils/api";
 
 interface CommentsProps {
   comments: Comment[];
-  setReplyTo: (id: number) => void;
-  deleteComment: (id: number) => void;
-  addReply: (text: string, parentId: number) => void;
 }
 
-export default function Comments({ comments, setReplyTo, deleteComment, addReply }: CommentsProps) {
+export default function Comments({ comments }: CommentsProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
   return (
@@ -42,12 +40,7 @@ export default function Comments({ comments, setReplyTo, deleteComment, addReply
               {/* render if parent has children replies */}
               {c.replies.length > 0 && (
                 <div className="ml-6 border-l-2 border-gray-200 pl-4">
-                  <Comments
-                    comments={c.replies}
-                    setReplyTo={setReplyTo}
-                    deleteComment={deleteComment}
-                    addReply={addReply}
-                  />
+                  <Comments comments={c.replies} />
                 </div>
               )}
             </div>

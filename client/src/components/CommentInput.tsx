@@ -1,11 +1,8 @@
 import TextInput from "./TextInput";
-
-interface CommentInputProps {
-  addComment: (text: string) => void;
-}
+import { handleAddComment } from "../utils/api";
 
 // input for top level comments
-export default function CommentInput({ addComment }: CommentInputProps) {
+export default function CommentInput() {
   return (
     <div>
       <p className="pt-4 max-w-2xl">
@@ -13,7 +10,7 @@ export default function CommentInput({ addComment }: CommentInputProps) {
         broad masses of the population. We support both newly founded companies as well as highly scalable companies
       </p>
       <div className="my-8">
-        <TextInput onSubmit={addComment} placeholder="Add a comment..." rows={4} />
+        <TextInput onSubmit={handleAddComment} placeholder="Add a comment..." rows={4} />
       </div>
     </div>
   );

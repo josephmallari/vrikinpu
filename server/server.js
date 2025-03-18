@@ -50,12 +50,11 @@ app.post("/comments", (req, res) => {
   const newComment = {
     id: result.lastInsertRowid,
     text,
-    parent_id,
     replies: [],
   };
 
   // Emit to all connected clients
-  io.emit("commentAdded", newComment);
+  io.emit("commentAdded", { ...newComment, parent_id });
   res.json(newComment);
 });
 
